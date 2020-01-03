@@ -1,0 +1,40 @@
+version: '2.1'
+services:
+  msu-econ-mongo:
+    container_name: msu-econ-mongo
+    image: mongo
+    restart: always
+    healthcheck:
+      test: mongo --eval 'db.getCollectionNames()'
+      interval: 10s
+      timeout: 2s
+      retries: 10
+    volumes:
+      - msu-econ-mongo-vol:/data/db
+    ports:
+      - 127.0.0.1:27017:27017
+    networks:
+      - services-tier
+
+  msu-econ-node:
+    container_name: msu-econ-node
+    restart: always
+    depends_on:
+      msu-econ-mongo:
+        condition: service_healthy
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - services-tier
+    ports:
+      - $JRS_CONNECTOR_HOST:$JRS_CONNECTOR_PORT:$JRS_CONNECTOR_PORT
+      - $JRS_METRICS_HOST:$JRS_METRICS_PORT:$JRS_METRICS_PORT
+    env_file:
+      - .env
+
+volumes:
+  msu-econ-mongo-vol:
+
+networks:
+  services-tier:
