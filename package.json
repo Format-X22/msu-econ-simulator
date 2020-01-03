@@ -16,10 +16,29 @@
     "url": "https://github.com/Format-X22/msu-econ-simulator/issues"
   },
   "homepage": "https://github.com/Format-X22/msu-econ-simulator#readme",
+  "prettier": {
+    "singleQuote": true,
+    "tabWidth": 4,
+    "semi": true,
+    "trailingComma": "es5",
+    "printWidth": 100,
+    "overrides": [
+      {
+        "files": [
+          "*.json",
+          "*.yml"
+        ],
+        "options": {
+          "tabWidth": 2
+        }
+      }
+    ]
+  },
   "dependencies": {
     "json-rpc-service": "^4.5.0"
   },
   "devDependencies": {
-    "jest": "^24.9.0"
+    "jest": "^24.9.0",
+    "prettier": "^1.19.1"
   }
 }
